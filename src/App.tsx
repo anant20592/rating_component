@@ -5,15 +5,25 @@ import './style.css';
 
 export default function App() {
   const [value, setValue] = React.useState<null | number>(2);
+  const IconComponent = (props: any) => {
+    return (
+      <span {...props}>
+        <FavoriteIcon />
+      </span>
+    );
+  };
   return (
     <div>
       <h1>Rating Component</h1>
       <Rating
         value={value}
-        onChange={(event, newValue) => {
-          console.log("new value- ", newValue)
+        onChange={(
+          event: React.ChangeEvent<HTMLInputElement>,
+          newValue: number
+        ) => {
           setValue(newValue);
         }}
+        icon={IconComponent}
       />
     </div>
   );

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import StarIcon from '@mui/icons-material/Star';
 interface RatingProps {
-  name: string;
   icon?: any;
   value?: number;
   onChange: (
@@ -11,35 +10,12 @@ interface RatingProps {
 }
 
 const Rating: React.FC = ({
-  name,
   icon,
   value = 0,
   onChange,
   ...restProps
 }: RatingProps) => {
-  const StarIconC = () => {
-    if (icon) return <>{[1, 2, 3, 4, 5].map((el) => icon)}</>;
-    return (
-      <>
-        {[1, 2, 3, 4, 5].map((el, indx) => (
-          <label key={el}>
-            <StarIcon
-              style={el <= value ? { color: 'darksalmon' } : {}}
-              key={indx}
-            />
-            <input
-              type={'checkbox'}
-              id={`rating-radio_${el}`}
-              value={el}
-              checked={el <= value ? true : false}
-              onChange={handleChange}
-              style={{ display: 'none' }}
-            />
-          </label>
-        ))}
-      </>
-    );
-  };
+  const Icon = icon;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value);
@@ -51,8 +27,32 @@ const Rating: React.FC = ({
   };
 
   return (
-    <div {...restProps} id={name}>
-      {<StarIconC />}
+    <div {...restProps}>
+      <>
+        {[1, 2, 3, 4, 5].map((el, indx) => (
+          <label key={el}>
+            {Icon ? (
+              <Icon
+                style={el <= value ? { color: 'darksalmon' } : {}}
+                key={indx}
+              />
+            ) : (
+              <StarIcon
+                style={el <= value ? { color: 'darksalmon' } : {}}
+                key={indx}
+              />
+            )}
+            <input
+              type={'checkbox'}
+              id={`rating-cb_${el}`}
+              value={el}
+              checked={el <= value ? true : false}
+              onChange={handleChange}
+              style={{ display: 'none' }}
+            />
+          </label>
+        ))}
+      </>
     </div>
   );
 };
